@@ -1,6 +1,6 @@
 ![Khajiit](Planning/readme_khajiit.png)
 
-# General Goods
+# Riften General Goods
 A website for intrepid adventurers to stock up on needed supplies for their travels.
 
 ## Table of Contents
@@ -52,11 +52,20 @@ This is a solo concept project to create a e-commerce site for a fictional store
 ![ERD](Planning/ERD.png "ERD")
 
 ## Wireframes
-
+![Landing Page](Planning/wireframes/1_landing_page.png "Landing Page")
+![Create User](Planning/wireframes/2_create_user.png "Create User")
+![Store Inventory](Planning/wireframes/3_store_inventory.png "Store Inventory")
+![Item Detail](Planning/wireframes/4_item_detail.png "Item Detail")
+![Cart Detail](Planning/wireframes/5_cart_view.png "Cart Detail")
+![User Profile](Planning/wireframes/6_profile.png "User Profile")
 
 ## Sourced Media
 README image:
 https://64.media.tumblr.com/e25ec309c11fca296538219bf2a71dad/tumblr_ps4oc1tEDm1rxvgdh_1280.jpg
+Riften marketplace:
+https://static.wikia.nocookie.net/elderscrolls/images/9/9a/Riften_Marketplace.png/revision/latest?cb=20121108234308
+Khajiit merchant:
+https://asset.vg247.com/skyrim-saints-and-seducers-find-risaad.jpg/BROK/resize/690%3E/format/jpg/quality/70/skyrim-saints-and-seducers-find-risaad.jpg
 
 ## Credits
-Thanks to the 1026 GA instructors for help when I hit roadblocks and teaching me the tools used here.
+Thanks to the 1026 GA instructors for help when I hit roadblocks and teaching me all the tools used here.
