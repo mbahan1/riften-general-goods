@@ -43,7 +43,7 @@ This is a solo concept project to create a e-commerce site for a fictional store
 [https://riften-general-goods.herokuapp.com/ - Not yet deployed](https://riften-general-goods.herokuapp.com/)
 
 ## Github Repo
-[https://github.com/mbahan1/general-goods](https://github.com/mbahan1/general-goods)
+[https://github.com/mbahan1/riften-general-goods](https://github.com/mbahan1/riften-general-goods)
 
 ## User Stories
 ![User Stories](Planning/user_stories.png "User Stories")
