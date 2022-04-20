@@ -69,3 +69,6 @@ https://asset.vg247.com/skyrim-saints-and-seducers-find-risaad.jpg/BROK/resize/6
 
 ## Credits
 Thanks to the 1026 GA instructors for help when I hit roadblocks and teaching me all the tools used here.
+
+https://github.com/pennersr/django-allauth
+https://learndjango.com/tutorials/django-log-in-email-not-username

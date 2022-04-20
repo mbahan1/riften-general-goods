@@ -4,6 +4,13 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+gunicorn = "*"
+django-heroku = "*"
+django-cors-headers = "*"
+dj-database-url = "*"
+psycopg2 = "*"
+whitenoise = "*"
+django-allauth = "~=0.42.0"
 
 [dev-packages]
 
