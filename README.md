@@ -40,7 +40,7 @@ This is a solo concept project to create a e-commerce site for a fictional store
     - Miro and Draw.io for planning 
 
 ## Deployment
-[https://riften-general-goods.herokuapp.com/ - Not yet deployed](https://riften-general-goods.herokuapp.com/)
+[https://riften-general-goods.herokuapp.com/](https://riften-general-goods.herokuapp.com/)
 
 ## Github Repo
 [https://github.com/mbahan1/riften-general-goods](https://github.com/mbahan1/riften-general-goods)
