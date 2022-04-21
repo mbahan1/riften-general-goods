@@ -66,7 +66,7 @@ INSTALLED_APPS = [
     'main_app',
 
     # allauth
-    # 'django.contrib.sites',
+    'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
