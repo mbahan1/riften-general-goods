@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.shortcuts import reverse
 
 # Create your models here.
 LOCATION_CHOICES = (
@@ -64,24 +65,59 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse("main_app:product", kwargs={
+            "pk" : self.pk
+        })
+
+    def get_add_to_cart_url(self) :
+        return reverse("main_app:add-to-cart", kwargs={
+            "pk" : self.pk
+        })
+
+    def get_remove_from_cart_url(self) :
+        return reverse("main_app:remove-from-cart", kwargs={
+            "pk" : self.pk
+        })
+
     class Meta:
         ordering = ['name']
 
 # extends the default user without having to create a new User model
-class Profile(models.Model):
+class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     location = models.CharField(max_length=50, choices = LOCATION_CHOICES)   
     avatar = models.CharField(max_length=50, choices = AVATAR_CHOICES)
-    bag = models.ManyToManyField(Product, through='Cart', through_fields=('profile', 'product'))
+    # bag = models.ManyToManyField(Product, through='Cart', through_fields=('profile', 'product'))
 
     def __str__(self):
         return self.user.username
 
-class Cart(models.Model):
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    count = models.IntegerField(default=1)
-    equiped = models.BooleanField(default=False)
+class OrderItem(models.Model) :
+    user = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    ordered = models.BooleanField(default=False)
+    item = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
+
 
     def __str__(self):
-        return (self.profile.user.username+":"+self.product.name)
+        return f"{self.quantity} of {self.item.item_name}"
+
+class Order(models.Model) :
+    user = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    items = models.ManyToManyField(OrderItem)
+    start_date = models.DateTimeField(auto_now_add=True)
+    ordered_date = models.DateTimeField()
+    ordered = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.user.username
+
+# class Cart(models.Model):
+#     profile = models.ForeignKey(Customer, on_delete=models.CASCADE)
+#     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+#     count = models.IntegerField(default=1)
+#     equiped = models.BooleanField(default=False)
+
+#     def __str__(self):
+#         return (self.customer.user.username+":"+self.product.name)

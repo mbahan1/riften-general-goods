@@ -6,7 +6,7 @@ from django.views import View # View class to handle requests
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http import HttpResponse, HttpResponseRedirect # This is our responses
 from django.urls import reverse
-from .models import Product, Profile, Cart
+from .models import Product, Customer, Order, OrderItem
 from django.contrib.auth.models import User
 # Auth imports
 from django.contrib.auth import authenticate, login, logout
