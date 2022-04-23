@@ -70,13 +70,13 @@ class Product(models.Model):
             "pk" : self.pk
         })
 
-    def get_add_to_cart_url(self) :
-        return reverse("main_app:add-to-cart", kwargs={
+    def get_put_in_cart_url(self) :
+        return reverse("main_app:put-in-cart", kwargs={
             "pk" : self.pk
         })
 
-    def get_remove_from_cart_url(self) :
-        return reverse("main_app:remove-from-cart", kwargs={
+    def get_takeout_from_cart_url(self) :
+        return reverse("main_app:takeout-from-cart", kwargs={
             "pk" : self.pk
         })
 
