@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    RiftenGG | Product Info
+{% endblock %}
+
+{% block content %}
+<br>
+<br>
+    <div>
+        Product Name: {{product.name}}
+        Product Category: {{product.category}}
+        Product Weight: {{product.weight}}
+        Product Value: {{product.value}}
+        Product Description: {{product.description}}
+        <img src="{{product.img}}" alt="{{product.name}}">
+    </div>
+{% endblock %}

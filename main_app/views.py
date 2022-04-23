@@ -26,9 +26,17 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect('/')
 
-class Product_View(DetailView):
+# class Product_View(DetailView):
+#     model = Product
+#     template_name = "product_detail.html"
+
+class Product_Detail(DetailView):
     model = Product
-    template_name = "product_detail.html"
+    template_name="product_detail.html"
+    def get_context_data(self, *args, **kwargs):
+        context = super(Product_Detail, self).get_context_data(*args, **kwargs)
+        product = get_object_or_404(Product, id=self.kwargs['pk'])
+        return context
 
 class Product_List(TemplateView):
     template_name = 'product_idx.html'
