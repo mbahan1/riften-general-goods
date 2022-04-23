@@ -54,8 +54,8 @@ AVATAR_CHOICES = (
 class Product(models.Model):
     name = models.CharField(max_length=100)
     category = models.CharField(max_length=50, choices = CATEGORY_CHOICES)
-    weight = models.IntegerField(default=1)
-    cost = models.IntegerField(default=1)
+    weight = models.FloatField(default=1)
+    cost = models.FloatField(default=1)
     quantity = models.IntegerField(default=1)
     description = models.TextField()
     img = models.CharField(max_length=500)
