@@ -16,5 +16,4 @@ urlpatterns = [
     path('bag/', views.OrderItem_List.as_view(), name="bag"),
     path('subtract-item/<pk>/', views.subtract_item, name='subtract-item'),
     path('add-item/<pk>/', views.add_item, name='add-item'),
-    path('add/<int:pk>', views.add_one, name='add'),
 ]

@@ -80,6 +80,16 @@ class Product(models.Model):
             "pk" : self.pk
         })
 
+    def get_add_item_url(self) :
+        return reverse("add-item", kwargs={
+            "pk" : self.pk
+        })
+
+    def get_subtract_item_url(self) :
+        return reverse("subtract-item", kwargs={
+            "pk" : self.pk
+        })
+
     class Meta:
         ordering = ['name']
 
@@ -104,6 +114,16 @@ class OrderItem(models.Model) :
 
     def __str__(self):
         return f"{self.quantity} of {self.item.item_name}"
+
+    # def get_add_item_url(self) :
+    #     return reverse("add-item", kwargs={
+    #         "pk" : self.pk
+    #     })
+
+    # def get_subtract_item_url(self) :
+    #     return reverse("subtract-item", kwargs={
+    #         "pk" : self.pk
+    #     })
 
 class Order(models.Model) :
     user = models.ForeignKey(User, on_delete=models.CASCADE)

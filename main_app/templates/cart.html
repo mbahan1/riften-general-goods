@@ -16,12 +16,19 @@
                 </a>                
                 <img src="{{orderitem.img}}" alt="{{orderitem.name}}" max-width="auto" height="100"> <br>
                 Product Value: {{orderitem.item.cost}} <br>
-                Quantity: 
-                <a href="{{ orderitem.subtract_item_url }}">- </a> 
-                <a href="{{ orderitem.get_subtract_item_url }}">MINUS</a>
-                {{orderitem.quantity}} 
-                <a href="{{ product.get_add_item_url }}"> +</a><br>
-                <a href="{{ orderitem.get_add_item_url }}">Add to cart</a>
+                Quantity: {{orderitem.quantity}} 
+                {% if orderitem.quantity == 1 %}
+                    <a href="{{ orderitem.item.get_subtract_item_url }}">Remove</a>
+                {% else %}
+                    <a href="{{ orderitem.item.get_subtract_item_url }}">SUBTRACT</a>
+                {% endif %}
+                
+                
+                {% if orderitem.quantity < orderitem.item.quantity %}
+                    <a href="{{ orderitem.item.get_add_item_url }}">ADD</a>
+                {% else %}
+                    <p>Maxium quantity in bag, no more in stock :(</p>
+                {% endif %}
                 <br>
             </div>
         {% endfor %}
