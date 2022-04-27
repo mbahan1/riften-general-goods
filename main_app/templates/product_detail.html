@@ -9,11 +9,12 @@
 <br>
 <br>
     <div>
-        Product Name: {{product.name}}
-        Product Category: {{product.category}}
-        Product Weight: {{product.weight}}
-        Product Value: {{product.value}}
-        Product Description: {{product.description}}
+        Product Name: {{product.name}} <br>
+        Product Category: {{product.category}} <br>
+        Product Weight: {{product.weight}} <br>
+        Product Value: {{product.value}} <br>
+        Product Description: {{product.description}} <br>
         <img src="{{product.img}}" alt="{{product.name}}">
+        <a href="{{ product.get_put_in_cart_url }}">Add to cart</a>
     </div>
 {% endblock %}

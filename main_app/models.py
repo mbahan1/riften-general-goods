@@ -66,17 +66,17 @@ class Product(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse("main_app:product", kwargs={
+        return reverse("product_detail", kwargs={
             "pk" : self.pk
         })
 
     def get_put_in_cart_url(self) :
-        return reverse("main_app:put-in-cart", kwargs={
+        return reverse("put-in-cart", kwargs={
             "pk" : self.pk
         })
 
     def get_takeout_from_cart_url(self) :
-        return reverse("main_app:takeout-from-cart", kwargs={
+        return reverse("takeout-from-cart", kwargs={
             "pk" : self.pk
         })
 
@@ -94,7 +94,7 @@ class Customer(models.Model):
         return self.user.username
 
 class OrderItem(models.Model) :
-    user = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     ordered = models.BooleanField(default=False)
     item = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
@@ -104,7 +104,7 @@ class OrderItem(models.Model) :
         return f"{self.quantity} of {self.item.item_name}"
 
 class Order(models.Model) :
-    user = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     items = models.ManyToManyField(OrderItem)
     start_date = models.DateTimeField(auto_now_add=True)
     ordered_date = models.DateTimeField()
