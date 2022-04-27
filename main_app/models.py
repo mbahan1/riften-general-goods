@@ -57,7 +57,7 @@ class Product(models.Model):
     category = models.CharField(max_length=50, choices = CATEGORY_CHOICES)
     weight = models.FloatField(default=1)
     cost = models.FloatField(default=1)
-    quantity = models.IntegerField(default=1)
+    quantity = models.IntegerField(default=99)
     description = models.TextField()
     img = models.CharField(max_length=500)
     added_on = models.DateTimeField(default=timezone.now)
@@ -97,19 +97,10 @@ class OrderItem(models.Model) :
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     ordered = models.BooleanField(default=False)
     item = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.IntegerField(default=0, blank=True, null=True)
+    quantity = models.IntegerField(default=1, blank=True, null=True)
 
-    def get_total(self):
-        item_total = self.product.price *self.quantity
-        return item_total
-
-    def add_one(self):
-        self.quantity += 1
-        return self.quantity
-
-    def subtract_one(self):
-        self.quantity -= 1
-        return self.quantity
+    def get_item_total(self):
+        return self.product.price *self.quantity
 
     def __str__(self):
         return f"{self.quantity} of {self.item.item_name}"
@@ -123,6 +114,12 @@ class Order(models.Model) :
 
     def __str__(self):
         return self.user.username
+
+    def get_order_total(self):
+        total = 0
+        for order_item in self.items.all():
+            total += order_item.get_item_total()
+        return total
 
 # class Cart(models.Model):
 #     profile = models.ForeignKey(Customer, on_delete=models.CASCADE)

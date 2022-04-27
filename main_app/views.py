@@ -1,6 +1,6 @@
 from dataclasses import fields
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import DetailView, ListView
+from django.views.generic import DetailView, ListView, View
 from django.views.generic.base import TemplateView
 from django.views import View # View class to handle requests
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -95,7 +95,7 @@ def takeout_from_cart(request, pk):
                 ordered = False
             )[0]
             order_item.delete()
-            messages.info(request, "Item \""+order_item.item.item_name+"\" remove from your cart")
+            messages.info(request, "Item \""+order_item.item.name+"\" remove from your cart")
             return redirect("product_detail")
         else:
             messages.info(request, "This Item not in your cart")
@@ -121,7 +121,93 @@ class OrderItem_List(TemplateView):
             context['products'] = Product.objects.all() # this is where we add the key into our context object for the view to use
             context['header'] = "Our Products"
         return context
-# @method_decorator(login_required, name='dispatch')
-# class Cart(TemplateView):
-#     template_name = 'cart.html'
 
+@login_required
+def subtract_item(request, pk):
+    item = get_object_or_404(Product, pk=pk )
+    order_qs = Order.objects.filter(
+        user = request.user, 
+        ordered = False
+    )
+    if order_qs.exists():
+        order = order_qs[0]
+        if order.items.filter(item__pk=item.pk).exists() :
+            order_item = OrderItem.objects.filter(
+                item = item,
+                user = request.user,
+                ordered = False
+            )[0]
+            if order_item.quantity > 1:
+                order_item.quantity -= 1
+                order_item.save()
+            else:
+                order_item.delete()
+            messages.info(request, "Item quantity was updated")
+            return redirect("bag")
+        else:
+            messages.info(request, "This Item not in your cart")
+            return redirect("bag")
+    else:
+        #add message doesnt have order
+        messages.info(request, "You do not have an Order")
+        return redirect("bag")
+
+# @login_required
+# def add_item(request, pk):
+#     item = get_object_or_404(Product, pk=pk )
+#     order_qs = Order.objects.filter(
+#         user = request.user, 
+#         ordered = False
+#     )
+#     if order_qs.exists():
+#         order = order_qs[0]
+#         if order.items.filter(item__pk=item.pk).exists() :
+#             order_item = OrderItem.objects.filter(
+#                 item = item,
+#                 user = request.user,
+#                 ordered = False
+#             )[0]
+#             if order_item.quantity < order_item.item.quantity:
+#                 order_item.quantity += 1
+#                 order_item.save()
+#                 messages.info(request, "Item quantity was updated")
+#             else:
+#                 order_item.delete()
+#                 messages.info(request, "Store doesn't have that many in stock")
+#             return redirect("bag")
+#         else:
+#             messages.info(request, "This Item not in your cart")
+#             return redirect("bag")
+#     else:
+#         #add message doesnt have order
+#         messages.info(request, "You do not have an Order")
+#         return redirect("bag")
+
+@login_required
+def add_item(request, pk) :
+    item = get_object_or_404(Product, pk = pk )
+    order_qs = Order.objects.filter(user = request.user, ordered = False)
+
+    if order_qs.exists() :
+        order = order_qs[0]
+        
+        if order.items.filter(item__pk = item.pk).exists() :
+            order_item.quantity += 1
+            order_item.save()
+            messages.info(request, "Added more Item")
+            return redirect("bag", pk = pk)
+        else:
+            order.items.add(order_item)
+            messages.info(request, "Item added to your cart")
+            return redirect("bag", pk = pk)
+    else:
+        ordered_date = timezone.now()
+        order = Order.objects.create(user=request.user, ordered_date = ordered_date)
+        order.items.add(order_item)
+        messages.info(request, "Item added to your cart")
+        return redirect("bag", pk = pk)
+
+def add_one(request, pk):
+    order_item = get_object_or_404(OrderItem, id=request.POST.get('orderitem_id'))
+    order_item.quantity.add(1)
+    return HttpResponseRedirect(reverse('bag', args=[str(pk)]))

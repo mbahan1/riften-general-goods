@@ -12,16 +12,21 @@
         {% for orderitem in user.orderitem_set.all %}
             <div>
                 <a style="color:lightblue;" href="{% url 'product_detail' orderitem.item.pk %}">
-                    <h4>{{orderitem.item.name}}</h4>
+                    <strong>{{orderitem.item.name}}</strong>
                 </a>                
                 <img src="{{orderitem.img}}" alt="{{orderitem.name}}" max-width="auto" height="100"> <br>
                 Product Value: {{orderitem.item.cost}} <br>
-                Quantity: {{orderitem.quantity}} <br>
-                <a href="{{ orderitem.add_one }}">+</a>
-                <a href="{{ orderitem.subtract_one }}">-</a>
+                Quantity: 
+                <a href="{{ orderitem.subtract_item_url }}">- </a> 
+                <a href="{{ orderitem.get_subtract_item_url }}">MINUS</a>
+                {{orderitem.quantity}} 
+                <a href="{{ product.get_add_item_url }}"> +</a><br>
+                <a href="{{ orderitem.get_add_item_url }}">Add to cart</a>
+                <br>
             </div>
         {% endfor %}
         <br>
-        Total: $
+        Current Total: $
     </div>
 {% endblock %}
+
