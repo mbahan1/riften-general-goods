@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    RiftenGG | Product Info
+{% endblock %}
+
+{% block content %}
+<br>
+<br>
+    <div>
+        {% for product in products %}
+            <div>
+                <a style="color:lightblue;" href="{% url 'product_detail' product.pk %}">
+                    <h4>{{product.name}}</h4>
+                </a>                
+                <img src="{{product.img}}" alt="{{product.name}}" max-width="auto" height="100"> <br>
+                Product Name: {{product.name}} <br>
+                Product Category: {{product.category}} <br>
+                Product Weight: {{product.weight}} <br>
+                Product Value: {{product.value}} <br>
+                Product Description: {{product.description}} <br>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
