@@ -13,8 +13,11 @@
         Product Category: {{product.category}} <br>
         Product Weight: {{product.weight}} <br>
         Product Value: {{product.value}} <br>
+        In Stock: {{product.quantity}} <br>
         Product Description: {{product.description}} <br>
         <img src="{{product.img}}" alt="{{product.name}}">
         <a href="{{ product.get_put_in_cart_url }}">Add to cart</a>
+        <a href="{{ product.get_takeout_from_cart_url }}">Remove from Cart</a>
+
     </div>
 {% endblock %}
