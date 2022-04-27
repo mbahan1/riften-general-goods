@@ -12,7 +12,12 @@
     </head>
     <body>
         <nav>
-            
+            {% if user.is_authenticated %}
+            <p>Welcome {{ user.username }} !!!</p>
+            <a href="{% url 'logout' %}">Logout</a>
+            <a href="/inventory">Store Inventory</a>
+            <a href="/bag">Bag</a>
+            {% endif %}
         </nav>
         {% block content %}
         {% endblock %}

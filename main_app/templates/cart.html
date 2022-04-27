@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    RiftenGG | Your Bag
+{% endblock %}
+
+{% block content %}
+<br>
+<br>
+    <div>
+        {% for orderitem in user.orderitem_set.all %}
+            <div>
+                <a style="color:lightblue;" href="{% url 'product_detail' orderitem.item.pk %}">
+                    <h4>{{orderitem.item.name}}</h4>
+                </a>                
+                <img src="{{orderitem.img}}" alt="{{orderitem.name}}" max-width="auto" height="100"> <br>
+                Product Value: {{orderitem.item.cost}} <br>
+                Quantity: {{orderitem.quantity}} <br>
+                <a href="{{ orderitem.add_one }}">+</a>
+                <a href="{{ orderitem.subtract_one }}">-</a>
+            </div>
+        {% endfor %}
+        <br>
+        Total: $
+    </div>
+{% endblock %}
