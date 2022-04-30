@@ -115,16 +115,6 @@ class OrderItem(models.Model) :
     def __str__(self):
         return f"{self.quantity} of {self.item.item_name}"
 
-    # def get_add_item_url(self) :
-    #     return reverse("add-item", kwargs={
-    #         "pk" : self.pk
-    #     })
-
-    # def get_subtract_item_url(self) :
-    #     return reverse("subtract-item", kwargs={
-    #         "pk" : self.pk
-    #     })
-
 class Order(models.Model) :
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     items = models.ManyToManyField(OrderItem)
@@ -140,12 +130,3 @@ class Order(models.Model) :
         for order_item in self.items.all():
             total += order_item.get_item_total()
         return total
-
-# class Cart(models.Model):
-#     profile = models.ForeignKey(Customer, on_delete=models.CASCADE)
-#     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-#     count = models.IntegerField(default=1)
-#     equiped = models.BooleanField(default=False)
-
-#     def __str__(self):
-#         return (self.customer.user.username+":"+self.product.name)

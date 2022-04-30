@@ -68,8 +68,7 @@ Khajiit merchant:
 https://asset.vg247.com/skyrim-saints-and-seducers-find-risaad.jpg/BROK/resize/690%3E/format/jpg/quality/70/skyrim-saints-and-seducers-find-risaad.jpg
 
 ## Credits
-Thanks to the 1026 GA instructors for help when I hit roadblocks and teaching me all the tools used here.
-
+Thanks to the 1026 GA instructors for help when I hit roadblocks and teaching me all the tools used here.  
 
 https://medium.com/analytics-vidhya/how-to-create-fully-functional-e-commerce-website-with-django-c95b46973b0
 https://learndjango.com/tutorials/django-allauth-tutorial
