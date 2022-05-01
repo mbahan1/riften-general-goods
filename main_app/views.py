@@ -6,16 +6,21 @@ from django.views import View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http import HttpResponse, HttpResponseRedirect 
 from django.urls import reverse
-from .models import Product, Customer, Order, OrderItem
+from .models import Product, Customer, Order, OrderItem, CheckoutAddress
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Auth imports
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from .forms import CheckoutForm
 
+# import stripe
+# stripe.api_key = settings.STRIPE_KEY
 
 # Create your views here.
 class Home(TemplateView):
@@ -102,19 +107,32 @@ def takeout_from_cart(request, pk):
         messages.info(request, "You do not have an Order")
         return redirect("product_detail", pk = pk)
 
-class OrderItem_List(TemplateView):
-    template_name = 'cart.html'
+# class OrderItem_List(TemplateView):
+#     template_name = 'cart.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        name = self.request.GET.get("name")
-        if name != None:
-            context["products"] = Product.objects.filter(name__icontains=name)
-            context["header"] = f"Searching for {name}"
-        else: 
-            context['products'] = Product.objects.all() 
-            context['header'] = "Our Products"
-        return context
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         name = self.request.GET.get("name")
+#         if name != None:
+#             context["order"] = Order.objects.get(user=self.request.user, ordered=False)
+#             context["products"] = Product.objects.filter(name__icontains=name)
+#             context["header"] = f"Searching for {name}"
+#         else: 
+#             context['products'] = Product.objects.all() 
+#             context['header'] = "Our Products"
+#         return context
+
+class OrderSummaryView(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        try:
+            order = Order.objects.get(user=self.request.user, ordered=False)
+            context = {
+                'object': order
+            }
+            return render(self.request, 'cart2.html', context)
+        except ObjectDoesNotExist:
+            messages.error(self.request, "You do not have an order")
+            return redirect("/")
 
 @login_required
 def subtract_item(request, pk):
@@ -137,13 +155,13 @@ def subtract_item(request, pk):
             else:
                 order_item.delete()
             messages.info(request, "Item quantity was updated")
-            return redirect("bag")
+            return redirect("cart")
         else:
             messages.info(request, "This Item not in your cart")
-            return redirect("bag")
+            return redirect("cart")
     else:
         messages.info(request, "You do not have an Order")
-        return redirect("bag")
+        return redirect("cart")
 
 @login_required
 def add_item(request, pk):
@@ -166,24 +184,126 @@ def add_item(request, pk):
                 messages.info(request, "Item quantity was updated")
             else:
                 messages.info(request, "Store doesn't have that many in stock")
-            return redirect("bag")
+            return redirect("cart")
         else:
             messages.info(request, "This Item not in your cart")
-            return redirect("bag")
+            return redirect("cart")
     else:
         messages.info(request, "You do not have an Order")
-        return redirect("bag")
+        return redirect("cart")
 
-# @method_decorator(login_required, name='dispatch')
-# class OrderSummaryView(CreateView):
+class CheckoutView(View):
+    def get(self, *args, **kwargs):
+        form = CheckoutForm()
+        context = {
+            'form': form
+        }
+        return render(self.request, 'checkout.html', context)
+
+    def post(self, *args, **kwargs):
+        form = CheckoutForm(self.request.POST or None)
+        
+        try:
+            order = Order.objects.get(user=self.request.user, ordered=False)
+            if form.is_valid():
+                street_address = form.cleaned_data.get('street_address')
+                apartment_address = form.cleaned_data.get('apartment_address')
+                country = form.cleaned_data.get('country')
+                zip = form.cleaned_data.get('zip')
+                same_billing_address = form.cleaned_data.get('same_billing_address')
+                save_info = form.cleaned_data.get('save_info')
+                payment_option = form.cleaned_data.get('payment_option')
+
+                checkout_address = CheckoutAddress(
+                    user=self.request.user,
+                    street_address=street_address,
+                    apartment_address=apartment_address,
+                    country=country,
+                    zip=zip
+                )
+                checkout_address.save()
+                order.checkout_address = checkout_address
+                order.save()
+                return redirect('checkout')
+            messages.warning(self.request, "Failed Chekout")
+            return redirect('checkout')
+
+        except ObjectDoesNotExist:
+            messages.error(self.request, "You do not have an order")
+            return redirect("cart")
+
+class Pickup(TemplateView):
+    template_name = 'pickup.html'
+
+# class PaymentView(View):
 #     def get(self, *args, **kwargs):
+#         order = Order.objects.get(user=self.request.user, ordered=False)
+#         context = {
+#             'order': order
+#         }
+#         return render(self.request, "payment.html", context)
+
+#     def post(self, *args, **kwargs):
+#         order = Order.objects.get(user=self.request.user, ordered=False)
+#         token = self.request.POST.get('stripeToken')
+#         amount = int(order.get_total_price() * 100)  #cents
 
 #         try:
-#             order = Order.objects.get(user=self.request.user, ordered=False)
-#             context = {
-#                 'object' : order
-#             }
-#             return render(self.request, 'order_summary.html', context)
-#         except ObjectDoesNotExist:
-#             messages.error(self.request, "You do not have an order")
-#             return redirect("/")
+#             charge = stripe.Charge.create(
+#                 amount=amount,
+#                 currency="usd",
+#                 source=token
+#             )
+
+#             # create payment
+#             payment = Payment()
+#             payment.stripe_id = charge['id']
+#             payment.user = self.request.user
+#             payment.amount = order.get_total_price()
+#             payment.save()
+
+#             # assign payment to order
+#             order.ordered = True
+#             order.payment = payment
+#             order.save()
+
+#             messages.success(self.request, "Success make an order")
+#             return redirect('/')
+
+#         except stripe.error.CardError as e:
+#             body = e.json_body
+#             err = body.get('error', {})
+#             messages.error(self.request, f"{err.get('message')}")
+#             return redirect('/')
+
+#         except stripe.error.RateLimitError as e:
+#             # Too many requests made to the API too quickly
+#             messages.error(self.request, "To many request error")
+#             return redirect('/')
+
+#         except stripe.error.InvalidRequestError as e:
+#             # Invalid parameters were supplied to Stripe's API
+#             messages.error(self.request, "Invalid Parameter")
+#             return redirect('/')
+
+#         except stripe.error.AuthenticationError as e:
+#             # Authentication with Stripe's API failed
+#             # (maybe you changed API keys recently)
+#             messages.error(self.request, "Authentication with stripe failed")
+#             return redirect('/')
+
+#         except stripe.error.APIConnectionError as e:
+#             # Network communication with Stripe failed
+#             messages.error(self.request, "Network Error")
+#             return redirect('/')
+
+#         except stripe.error.StripeError as e:
+#             # Display a very generic error to the user, and maybe send
+#             # yourself an email
+#             messages.error(self.request, "Something went wrong")
+#             return redirect('/')
+        
+#         except Exception as e:
+#             # Something else happened, completely unrelated to Stripe
+#             messages.error(self.request, "Not identified error")
+#             return redirect('/')
