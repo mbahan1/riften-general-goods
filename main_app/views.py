@@ -224,7 +224,7 @@ class CheckoutView(View):
                 checkout_address.save()
                 order.checkout_address = checkout_address
                 order.save()
-                return redirect('checkout')
+                return redirect('pickup')
             messages.warning(self.request, "Failed Chekout")
             return redirect('checkout')
 
