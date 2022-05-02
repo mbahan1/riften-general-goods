@@ -6,5 +6,56 @@
 {% endblock %}
 
 {% block content %}
+    <form method="POST" class="card-body">
+        {% csrf_token %}
+        <div>
+            {{ form.street_address }}
+            <label for="address" class="">Address</label>
+        </div>
 
+        <div>
+            {{ form.apartment_address }}
+            <label for="address-2" class="">Address 2 (optional)</label>
+        </div>
+
+
+        <div>
+            <label for="country">Country</label>
+            {{ form.country }}
+        </div>
+
+        <div>
+            <label for="zip">Zip</label>
+            {{ form.zip }}
+            <div class="invalid-feedback">
+                Zip code required.
+            </div>
+        </div>
+
+        <hr>
+
+        <div>
+            <input {% if form.same_billing_address.value %}checked{% endif %} type="checkbox" class="custom-control-input" name="same_billing_address" id="same-address">
+            <label for="same-address">Shipping address is the same as my billing address</label>
+        </div>
+        <div>
+            <input {% if form.save_info.value %}checked{% endif %} type="checkbox" class="custom-control-input" name="save_info" id="save-info">
+            <label class="custom-control-label" for="save-info">Save this information for next time</label>
+        </div>
+
+        <hr>
+
+        <div>
+            {% for value, name in form.fields.payment_option.choices %}
+            <div>
+                <input id="{{ name }}" name="payment_option" value="{{ value }}" type="radio" class="custom-control-input" required>
+                <label class="custom-control-label" for="{{ name }}">{{ name }}</label>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <hr>
+        <a href="pickup"><button type="submit">Continue to checkout</button></a>
+        
+    </form>
 {% endblock %}

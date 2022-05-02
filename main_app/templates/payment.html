@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div>
+    <script src="https://js.stripe.com/v3/"></script>
+    <div>
+        <form action="." method="post">
+            {% csrf_token %}
+            <div>
+                <label for="card-element">
+                    Credit or debit card
+                </label>
+            </div>
+            <div>
+                <button>Submit Payment</button>
+            </div>
+            <div>
+                <input type="checkbox" name="save">
+                <label for="save_card_info">Save for future purchases</label>
+            </div>
+            <div role="alert"></div>
+        </form>
+    </div>
+    <div>
+        <h4>
+            <span>Your cart</span>
+            <span>{{ order.items.count }}</span>
+        </h4>
+        <ul>
+            {% for order_item in order.items.all %}
+                <li>
+                    <div>
+                        <h6>{{ order_item.quantity }} x {{ order_item.item.name }}</h6>
+                        <small>{{ order_item.item.description }}</small>
+                    </div>
+                    <span>{{ order_item.get_item_price }}</span>
+                </li>
+            {% endfor %}
+            {% comment %} 
+            <li>
+                <div>
+                    <h6>Promo code</h6>
+                    <small>EXAMPLECODE</small>
+                </div>
+                <span>-$0</span>
+            </li> {% endcomment %}
+            <li>
+                <span>Total (USD)</span>
+                <strong>{{ order.get_order_total }}</strong>
+            </li>
+        </ul>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block extra_scripts %}
+
+<script nonce="">
+  var stripe = Stripe('');
+
+  var elements = stripe.elements();
+
+  var style = {
+    base: {
+      color: '#32325d',
+      fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+      fontSmoothing: 'antialiased',
+      fontSize: '16px',
+      '::placeholder': {
+        color: '#aab7c4'
+      }
+    },
+    invalid: {
+      color: '#fa755a',
+      iconColor: '#fa755a'
+    }
+  };
+
+  var card = elements.create('card', {style: style});
+
+  card.mount('#card-element');
+
+  card.addEventListener('change', function(event) {
+    var displayError = document.getElementById('card-errors');
+    if (event.error) {
+      displayError.textContent = event.error.message;
+    } else {
+      displayError.textContent = '';
+    }
+  });
+
+  var form = document.getElementById('stripe-form');
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    stripe.createToken(card).then(function(result) {
+      if (result.error) {
+        var errorElement = document.getElementById('card-errors');
+        errorElement.textContent = result.error.message;
+      } else {
+        stripeTokenHandler(result.token);
+      }
+    });
+  });
+
+  function stripeTokenHandler(token) {
+    var form = document.getElementById('stripe-form');
+    var hiddenInput = document.createElement('input');
+    hiddenInput.setAttribute('type', 'hidden');
+    hiddenInput.setAttribute('name', 'stripeToken');
+    hiddenInput.setAttribute('value', token.id);
+    form.appendChild(hiddenInput);
+    form.submit();
+  }
+
+  var currentCardForm = $('.current-card-form');
+  var newCardForm = $('.new-card-form');
+  var use_default_card = document.querySelector("input[name=use_default_card]");
+  use_default_card.addEventListener('change', function() {
+    if (this.checked) {
+      newCardForm.hide();
+      currentCardForm.show()
+    } else {
+      newCardForm.show();
+      currentCardForm.hide()
+    }
+  })
+
+</script>
+
+{% endblock extra_scripts %}

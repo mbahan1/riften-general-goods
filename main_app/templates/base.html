@@ -17,7 +17,8 @@
             <p>Welcome {{ user.username }} !!!</p>
             <a href="{% url 'logout' %}">Logout</a>
             <a href="/inventory">Store Inventory</a>
-            <a href="/bag">Bag</a>
+            <!-- <a href="/bag">Bag</a> -->
+            <a href="/cart">Cart</a>
             {% endif %}
         </nav>
         {% block content %}
