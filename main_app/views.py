@@ -12,6 +12,8 @@ from django.utils import timezone
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.decorators.csrf import csrf_exempt
+
 # Auth imports
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -44,12 +46,80 @@ class Product_List(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         name = self.request.GET.get("name")
+        context['cat'] = ['Armor', 'Books', 'Food', 'Jewelery', 'Potions', 'Weapons']
         if name != None:
             context["products"] = Product.objects.filter(name__icontains=name)
             context["header"] = f"Searching for {name}"
-        else: 
+        else:
+            # if 'Armor' in self.request.POST:
+            #     context['products'] = Product.objects.all.filter(name="Armor")
+            # elif 'Books' in self.request.POST:
+            #     context['products'] = Product.objects.all.filter(name="Books")
+            # elif 'Food' in self.request.POST:
+            #     context['products'] = Product.objects.all.filter(name="Food")
+            # elif 'Jewelery' in self.request.POST:
+            #     context['products'] = Product.objects.all.filter(name="Jewelery")
+            # elif 'Potions' in self.request.POST:
+            #     context['products'] = Product.objects.all.filter(name="Potions")
+            # elif 'Weapons' in self.request.POST:
+            #     context['products'] = Product.objects.all.filter(name="Weapons")
+            # else:
             context['products'] = Product.objects.all() 
             context['header'] = "Our Products"
+        return context
+
+class Armor_List(TemplateView):
+    template_name = 'armor_list.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        name = self.request.GET.get("name")
+        context['cat'] = ['Armor', 'Books', 'Food', 'Jewelery', 'Potions', 'Weapons']
+        context["products"] = Product.objects.filter(category="Armor")
+        return context
+
+class Book_List(TemplateView):
+    template_name = 'book_list.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        name = self.request.GET.get("name")
+        context['cat'] = ['Armor', 'Books', 'Food', 'Jewelery', 'Potions', 'Weapons']
+        context["products"] = Product.objects.filter(category="Books")
+        return context
+
+class Food_List(TemplateView):
+    template_name = 'food_list.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        name = self.request.GET.get("name")
+        context['cat'] = ['Armor', 'Books', 'Food', 'Jewelery', 'Potions', 'Weapons']
+        context["products"] = Product.objects.filter(category="Food")
+        return context
+
+class Jewelery_List(TemplateView):
+    template_name = 'jewelery_list.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        name = self.request.GET.get("name")
+        context['cat'] = ['Armor', 'Books', 'Food', 'Jewelery', 'Potions', 'Weapons']
+        context["products"] = Product.objects.filter(category="Jewelery")
+        return context
+
+class Potions_List(TemplateView):
+    template_name = 'potions_list.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        name = self.request.GET.get("name")
+        context['cat'] = ['Armor', 'Books', 'Food', 'Jewelery', 'Potions', 'Weapons']
+        context["products"] = Product.objects.filter(category="Potions")
+        return context
+
+class Weapons_List(TemplateView):
+    template_name = 'weapons_list.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        name = self.request.GET.get("name")
+        context['cat'] = ['Armor', 'Books', 'Food', 'Jewelery', 'Potions', 'Weapons']
+        context["products"] = Product.objects.filter(category="Weapons")
         return context
 
 @login_required

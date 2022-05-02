@@ -27,9 +27,7 @@ CATEGORY_CHOICES = (
     ("Armor", "Armor"),
     ("Books", "Books"),
     ("Food", "Food"),
-    # ("Furniture", "Furniture"),
     ("Jewelery", "Jewelery"),
-    ("Materials", "Materials"),
     ("Potions", "Potions"),
     ("Weapons", "Weapons"),
 )
