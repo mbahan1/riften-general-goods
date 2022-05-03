@@ -1,7 +1,53 @@
 body {
     color: silver;
-    background-color: darkslategray;
+    background-color: #25383C;
+    font-family: 'Futura Condensed PT', sans-serif;
+    font-size: 150%;
 }
 #welcome {
     color: gold;
+    font-family: 'Augusta', sans-serif;
+    padding: 10px;
+}
+#brand {
+    /* font-family: 'Quintessential', cursive; */
+    font-family: 'Augusta', sans-serif;
+    font-size: 150%;
+}
+.navbar-header {
+    float: center;
+    text-align: center;
+}
+.navbar-brand {
+    transform: translateX(-50%);
+    left: 50%;
+    position: absolute;
+  }
+#search-div{
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 500px !important;
+}
+.links{
+    color: silver;
+}
+#khajiit{
+    margin-right: auto;
+    margin-left: auto;
+    max-height: 400px !important;
+    max-width: auto;
+    padding-bottom: 10px;
+}
+#idx-img{
+    padding: 10px 40px 10px 40px;
+    display: flex;
+    align-items: center;
+}
+#idx-card{
+    color: silver;
+    font-size: 80%;
+}
+#name-link{
+    color: silver;
+    font-size: 120%;
 }
