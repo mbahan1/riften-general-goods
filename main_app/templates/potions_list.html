@@ -6,37 +6,44 @@
 {% endblock %}
 
 {% block content %}
-<br>
-<div class="row" id="search-div">
-    <div class="container-sm">
-        <form class="d-flex" id="search_box">
-            <input class="form-control me-2" id="search_bar" type="text" name="name" placeholder="Item Name" aria-label="Search"/>
-            <button class="btn btn-secondary" type="submit">Search</button>
-        </form>
+<div class="container-fluid">
+    <div class="text-center">
+        <br>
+        <div class="row" id="search-div">
+            <div class="container-sm">
+                <form class="d-flex" id="search_box">
+                    <input class="form-control me-2" id="search_bar" type="text" name="name" placeholder="Item Name" aria-label="Search"/>
+                    <button class="btn btn-secondary" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+        <div>
+            {% for product in products %}
+                <div class="d-flex mt-5 justify-content-center" id="item-card">
+                    <div class="card text-white bg-dark mb-3" style="max-width: 800px;">
+                        <div class="row no-gutters">
+                            <div class="col-md-4" id="idx-img">
+                                <a href="{% url 'product_detail' product.pk %}">
+                                    <img class="img-fluid rounded-center" src="{{product.img}}" alt="{{product.name}}">
+                                </a>
+                            </div>
+                            <div class="col-md-8" id="idx-card">
+                                <div class="card-body">
+                                    <a style="color:silver;" href="{% url 'product_detail' product.pk %}">
+                                        <h4 class="card-name" id="name-link">{{product.name}}</h4>
+                                    </a>
+                                    Category: {{product.category}} <br>
+                                    Weight: {{product.weight}} <br>
+                                    Value: {{product.cost}} <br>
+                                    In Stock: {{product.quantity}} <br>
+                                    {{product.description}} <br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 </div>
-<br>
-    <div>
-        {% for product in products %}
-            <div>
-                <a style="color:lightblue;" href="{% url 'product_detail' product.pk %}">
-                    <h4>{{product.name}}</h4>
-                </a>                
-                <img src="{{product.img}}" alt="{{product.name}}" max-width="auto" height="100"> <br>
-                Product Name: {{product.name}} <br>
-                Product Category: {{product.category}} <br>
-                Product Weight: {{product.weight}} <br>
-                Product Value: {{product.value}} <br>
-                In Stock: {{product.quantity}} <br>
-                Product Description: {{product.description}} <br>
-            </div>
-        {% endfor %}
-        <ul class=".">
-            {% for category in cat %}
-                <li>
-                    <a href="/inventory/{{ category }}">{{ category }}</a>
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
 {% endblock %}

@@ -27,6 +27,7 @@ body {
     margin-right: auto;
     margin-left: auto;
     max-width: 500px !important;
+    margin-bottom: 20px;
 }
 .links{
     color: silver;
@@ -50,4 +51,8 @@ body {
 #name-link{
     color: silver;
     font-size: 120%;
+}
+#item-card{
+    margin-top:5px !important;
+    margin-bottom:5px !important;
 }
