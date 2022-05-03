@@ -6,33 +6,25 @@
 {% endblock %}
 
 {% block content %}
-<br>
-<br>
-    <div>
+<div class="container-fluid">
+    <div class="text-center">
         {% for orderitem in user.orderitem_set.all %}
             <div>
-                <a style="color:lightblue;" href="{% url 'product_detail' orderitem.item.pk %}">
-                    <strong>{{orderitem.item.name}}</strong>
+                <a style="color:silver;"href="{% url 'product_detail' orderitem.item.pk %}">
+                    <strong style="color:#d4af37;">{{orderitem.item.name}}</strong>
                 </a>                
                 <img src="{{orderitem.img}}" alt="{{orderitem.name}}" max-width="auto" height="100"> <br>
-                Product Value: {{orderitem.item.cost}} <br>
+                Cost Each: ${{orderitem.item.cost}} <br>
                 Quantity: {{orderitem.quantity}} 
-                {% if orderitem.quantity == 1 %}
-                    <a href="{{ orderitem.item.get_subtract_item_url }}">Remove</a>
-                {% else %}
-                    <a href="{{ orderitem.item.get_subtract_item_url }}">SUBTRACT</a>
-                {% endif %}
-                
-                
+                <a class="btn btn-dark" id="buttons" href="{{ orderitem.item.get_subtract_item_url }}">-</a>
                 {% if orderitem.quantity < orderitem.item.quantity %}
-                    <a href="{{ orderitem.item.get_add_item_url }}">ADD</a>
+                    <a class="btn btn-dark" id="buttons" href="{{ orderitem.item.get_add_item_url }}">+</a>
                 {% else %}
                     <p>Maxium quantity in bag, no more in stock :(</p>
                 {% endif %}
                 <br>
-                ${{ orderitem.get_item_total}}
-                <br>
-                
+                Cost Total: ${{ orderitem.get_item_total}}
+                <hr>
             </div>
         {% endfor %}
         <br>
@@ -43,15 +35,14 @@
         </tr>
          <tr>
             <td>
-                <a href="{% url 'checkout' %}">Checkout</a>
                 <br>
-                <a href="/inventory">Continue Shopping</a>
+                <a class="btn btn-dark btn-lg" id="buttons" href="{% url 'checkout' %}">Checkout</a>
+                <a class="btn btn-dark btn-lg" id="buttons" href="/inventory">Continue Shopping</a>
             </td>
         </tr>
-        
         {% endif %}
     </div>
-
+</div>
     
 {% endblock %}
 

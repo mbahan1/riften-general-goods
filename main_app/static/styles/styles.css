@@ -1,7 +1,86 @@
 body {
     color: silver;
-    background-color: darkslategray;
+    background-color: #25383C;
+    font-family: 'Futura Condensed PT', sans-serif;
+    font-size: 150%;
 }
 #welcome {
-    color: gold;
+    color: #d4af37;
+    font-family: 'Augusta', sans-serif;
+    padding-bottom: 10px;
+}
+#brand {
+    /* font-family: 'Quintessential', cursive; */
+    font-family: 'Augusta', sans-serif;
+    font-size: 150%;
+    color: #d4af37;
+}
+.navbar-header {
+    float: center;
+    text-align: center;
+}
+.navbar-brand {
+    transform: translateX(-50%);
+    left: 50%;
+    position: absolute;
+  }
+nav{
+    margin-bottom: 25px;
+}
+#search-div{
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 500px !important;
+    margin-bottom: 20px;
+}
+.links{
+    color: silver;
+}
+#khajiit{
+    margin-right: auto;
+    margin-left: auto;
+    max-height: 400px !important;
+    max-width: auto;
+    padding-bottom: 10px;
+}
+#idx-img{
+    padding: 10px 40px 10px 40px;
+    display: flex;
+    align-items: center;
+}
+#idx-card{
+    color: silver;
+    font-size: 80%;
+}
+#name-link{
+    color: #d4af37;
+    font-size: 120%;
+}
+#item-card{
+    margin-top:5px !important;
+    margin-bottom:5px !important;
+}
+#det-img{
+    margin-right: auto;
+    margin-left: auto;
+    max-height: 300px !important;
+    max-width: auto;
+}
+#img-cont{
+    max-width: 100% !important;
+    max-height: 100% !important;
+}
+#detail-img{
+    width: 100% !important;
+}
+#item-detail{
+    vertical-align: middle;
+}
+#buttons{
+    color: #d4af37 !important;
+}
+#checkout{
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 500px;
 }

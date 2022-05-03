@@ -6,18 +6,27 @@
 {% endblock %}
 
 {% block content %}
-<br>
-<br>
-    <div>
-        Product Name: {{product.name}} <br>
-        Product Category: {{product.category}} <br>
-        Product Weight: {{product.weight}} <br>
-        Product Value: {{product.value}} <br>
-        In Stock: {{product.quantity}} <br>
-        Product Description: {{product.description}} <br>
-        <img src="{{product.img}}" alt="{{product.name}}">
-        <a href="{{ product.get_put_in_cart_url }}">Add to cart</a>
-        <a href="{{ product.get_takeout_from_cart_url }}">Remove from Cart</a>
-
+<div class="container-fluid">
+    <div class="text-center">
+        <div class="row justify-content-center">
+            <div class="col-4">
+                <img class="img-fluid" id="detail-img" src="{{product.img}}" alt="{{product.name}}">
+            </div>
+            <div class="col-4" id="item-detail">
+                <div class="my-auto">
+                <strong>{{product.name}}</strong> 
+                <p>
+                    Category: {{product.category}} <br> 
+                    Weight: {{product.weight}} <br>
+                    Cost: {{product.cost}}<br>
+                    In Stock: {{product.quantity}}<br>
+                    {{product.description}}<br>
+                </p>
+                </div>
+            </div>
+        </div>
+        <a class="btn btn-dark btn-lg" id="buttons" href="{{ product.get_put_in_cart_url }}">Add to cart</a>
+        <a class="btn btn-dark btn-lg" id="buttons" href="{{ product.get_takeout_from_cart_url }}">Remove from Cart</a>
     </div>
+</div>
 {% endblock %}

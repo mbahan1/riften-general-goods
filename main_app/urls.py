@@ -19,4 +19,10 @@ urlpatterns = [
     path('checkout', views.CheckoutView.as_view(), name='checkout'),
     path('cart/', views.OrderSummaryView.as_view(), name="cart"),
     path('pickup', views.Pickup.as_view(), name='pickup'),
+    path('inventory/Armor', views.Armor_List.as_view(), name="armor-list"),
+    path('inventory/Books', views.Book_List.as_view(), name="books-list"),
+    path('inventory/Food', views.Food_List.as_view(), name="food-list"),
+    path('inventory/Jewelery', views.Jewelery_List.as_view(), name="jewelery-list"),
+    path('inventory/Potions', views.Potions_List.as_view(), name="potions-list"),
+    path('inventory/Weapons', views.Weapons_List.as_view(), name="weapons-list"),
 ]

@@ -7,14 +7,25 @@
 {% endblock %}
 
 {% block content %}
-    <h1 id="welcome">Welcome to Riften General Goods!</h1>
-    {% if user.is_authenticated %}
-    <p>Welcome {{ user.username }} !!!</p>
-    <a href="{% url 'logout' %}">Logout</a>
-    <a href="/inventory">Store Inventory</a>
-    {% else %}
-    Choose an account to use for login:
-    <a href="{% provider_login_url 'github' %}">github</a>
-    <a href="{% provider_login_url 'google' %}">google</a>
-    {% endif %}
+<div class="container-fluid">
+    <div class="text-center">
+        <div>
+            <h1 id="welcome">Welcome to Riften General Goods</h1>
+            <img src="{% static 'images/khajiit.png' %}" class="img-fluid" id="khajiit" alt="khajiit">
+            <br>
+            {% if user.is_authenticated %}
+            <p>Good to see you {{ user.username }}, please enjoy browsing our shop inventory.
+            {% else %}
+                Choose an existing account for login
+                <br>
+                <a class="links" href="{% provider_login_url 'github' %}">github</a>
+                <a class="links" href="{% provider_login_url 'google' %}">google</a>
+                <br>
+                Or create an account with us if you prefer  
+                <br>
+                <a class="links" href="/accounts/signup">signup</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
 {% endblock %}
