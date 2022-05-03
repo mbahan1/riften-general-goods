@@ -5,14 +5,15 @@ body {
     font-size: 150%;
 }
 #welcome {
-    color: gold;
+    color: #d4af37;
     font-family: 'Augusta', sans-serif;
-    padding: 10px;
+    padding-bottom: 10px;
 }
 #brand {
     /* font-family: 'Quintessential', cursive; */
     font-family: 'Augusta', sans-serif;
     font-size: 150%;
+    color: #d4af37;
 }
 .navbar-header {
     float: center;
@@ -23,6 +24,9 @@ body {
     left: 50%;
     position: absolute;
   }
+nav{
+    margin-bottom: 25px;
+}
 #search-div{
     margin-right: auto;
     margin-left: auto;
@@ -49,10 +53,34 @@ body {
     font-size: 80%;
 }
 #name-link{
-    color: silver;
+    color: #d4af37;
     font-size: 120%;
 }
 #item-card{
     margin-top:5px !important;
     margin-bottom:5px !important;
+}
+#det-img{
+    margin-right: auto;
+    margin-left: auto;
+    max-height: 300px !important;
+    max-width: auto;
+}
+#img-cont{
+    max-width: 100% !important;
+    max-height: 100% !important;
+}
+#detail-img{
+    width: 100% !important;
+}
+#item-detail{
+    vertical-align: middle;
+}
+#buttons{
+    color: #d4af37 !important;
+}
+#checkout{
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 500px;
 }
