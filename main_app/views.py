@@ -168,7 +168,7 @@ def takeout_from_cart(request, pk):
             )[0]
             order_item.delete()
             messages.info(request, "Item \""+order_item.item.name+"\" remove from your cart")
-            return redirect("product_detail")
+            return redirect("product_detail", pk=pk)
         else:
             messages.info(request, "This Item not in your cart")
             return redirect("product_detail", pk=pk)
